@@ -18,6 +18,11 @@ variable "public_subnet_cidr" {
   default = "172.33.1.0/24"
 }
 
+variable "private_subnet_cidr" {
+  description = "CIDR for the private subnet"
+  default = "172.33.2.0/24"
+}
+
 variable "ami" {
   description = "Amazon Linux AMI"
   default = "ami-06bcd1131b2f55803"
