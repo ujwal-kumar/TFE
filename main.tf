@@ -121,3 +121,11 @@ resource "aws_instance" "wb" {
    private_key="${file("${var.key_path}")}"
    }
 }
+
+output "aws_instance_public_dns" {
+  value = "${aws_instance.wb.public_dns}"
+}
+
+output "aws_instance_public_ip" {
+  value = "${aws_instance.wb.public_ip}"
+}
