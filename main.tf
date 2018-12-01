@@ -89,7 +89,7 @@ resource "aws_subnet" "ap-south-1-public" {
     vpc_id = "${aws_vpc.default.id}"
 
     cidr_block = "${var.public_subnet_cidr}"
-    availability_zone = "eu-west-1a"
+    availability_zone = "ap-south-1"
 
 }
 
