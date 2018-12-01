@@ -2,6 +2,7 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "key_path" {}
 variable "key_name" {}
+variable "instance_username" {}
 
 variable "aws_region" {
   description = "Region for the VPC"
