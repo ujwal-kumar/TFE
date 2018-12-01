@@ -98,4 +98,26 @@ resource "aws_instance" "wb" {
    vpc_security_group_ids = ["${aws_security_group.sgweb.id}"]
    associate_public_ip_address = true
    source_dest_check = false
+  
+   provisioner "file" {
+   source="lamp.sh"
+   destination="/tmp/lamp.sh"
+   }
+  
+   provisioner "file" {
+   source="Demo.zip"
+   destination="/tmp/Demo.zip"
+   }
+  
+   provisioner "remote-exec" {
+      inline=[
+     "sleep 300",
+     "chmod +x /tmp/lamp.sh",
+     "sudo /tmp/lamp.sh"
+     ]
+   }
+   connection {
+   user="${var.instance_username}"
+   private_key="${file("${var.key_path}")}"
+   }
 }
