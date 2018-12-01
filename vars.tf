@@ -1,31 +1,24 @@
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
-variable "aws_key_path" {}
-variable "aws_key_name" {}
+variable "key_path" {}
+variable "key_name" {}
 
 variable "aws_region" {
-    description = "EC2 Region for the VPC"
-    default = "ap-south-1"
-}
-
-variable "amis" {
-    description = "AMIs by region"
-    default = {
-        ap-south-1 = "ami-06bcd1131b2f55803"
-    }
+  description = "Region for the VPC"
+  default = "ap-south-1"
 }
 
 variable "vpc_cidr" {
-    description = "CIDR for the whole VPC"
-    default = "172.32.0.0/16"
+  description = "CIDR for the VPC"
+  default = "172.33.0.0/16"
 }
 
 variable "public_subnet_cidr" {
-    description = "CIDR for the Public Subnet"
-    default = "172.32.1.0/24"
+  description = "CIDR for the public subnet"
+  default = "172.33.1.0/24"
 }
 
-variable "private_subnet_cidr" {
-    description = "CIDR for the Private Subnet"
-    default = "172.32.2.0/24"
+variable "ami" {
+  description = "Amazon Linux AMI"
+  default = "ami-06bcd1131b2f55803"
 }
