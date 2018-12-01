@@ -11,17 +11,17 @@ variable "aws_region" {
 
 variable "vpc_cidr" {
   description = "CIDR for the VPC"
-  default = "172.33.0.0/16"
+  default = "0.0.0.0/16"
 }
 
 variable "public_subnet_cidr" {
   description = "CIDR for the public subnet"
-  default = "172.33.1.0/24"
+  default = "0.0.0.0/24"
 }
 
 variable "private_subnet_cidr" {
   description = "CIDR for the private subnet"
-  default = "172.33.2.0/24"
+  default = "0.0.0.0/24"
 }
 
 variable "ami" {
