@@ -1,9 +1,11 @@
+# Create VPC
 resource "aws_vpc" "default" {
   cidr_block = "${var.vpc_cidr}"
   enable_dns_hostnames = true
 
 }
 
+# Create the Public Subnet
 resource "aws_subnet" "public-subnet" {
   vpc_id = "${aws_vpc.default.id}"
   cidr_block = "${var.public_subnet_cidr}"
@@ -11,7 +13,7 @@ resource "aws_subnet" "public-subnet" {
 
 }
 
-# Define the private subnet
+# Create the private subnet
 resource "aws_subnet" "private-subnet" {
   vpc_id = "${aws_vpc.default.id}"
   cidr_block = "${var.private_subnet_cidr}"
@@ -19,11 +21,13 @@ resource "aws_subnet" "private-subnet" {
 
 }
 
+# Create Internet gateway
 resource "aws_internet_gateway" "gw" {
   vpc_id = "${aws_vpc.default.id}"
 
 }
 
+# Create route table
 resource "aws_route_table" "web-public-rt" {
   vpc_id = "${aws_vpc.default.id}"
 
@@ -40,6 +44,7 @@ resource "aws_route_table_association" "web-public-rt" {
   route_table_id = "${aws_route_table.web-public-rt.id}"
 }
 
+# Create the Security Group
 resource "aws_security_group" "sgweb" {
   name = "vpc_test_web"
   description = "Allow incoming HTTP connections & SSH access"
@@ -90,6 +95,7 @@ resource "aws_security_group" "sgweb" {
 
 }
 
+# Create EC2 Instance
 resource "aws_instance" "wb" {
    ami  = "${var.ami}"
    instance_type = "t2.micro"
@@ -98,17 +104,20 @@ resource "aws_instance" "wb" {
    vpc_security_group_ids = ["${aws_security_group.sgweb.id}"]
    associate_public_ip_address = true
    source_dest_check = false
-  
+   
+   # Copy the file to EC2 instance
    provisioner "file" {
    source="lamp.sh"
    destination="/tmp/lamp.sh"
    }
-  
+   
+  # Copy the Application Zip file 
    provisioner "file" {
    source="Demo.zip"
    destination="/tmp/Demo.zip"
    }
   
+   # Run the script to copy Install LAMP stack and copy the Application file to deployment path
    provisioner "remote-exec" {
       inline=[
      "sleep 300",
@@ -116,12 +125,15 @@ resource "aws_instance" "wb" {
      "sudo /tmp/lamp.sh"
      ]
    }
+  
+   # Connecting to the EC2 instance
    connection {
    user="${var.instance_username}"
    private_key="${file("${var.key_path}")}"
    }
 }
 
+# Display the Public dns and Public IP
 output "aws_instance_public_dns" {
   value = "${aws_instance.wb.public_dns}"
 }
